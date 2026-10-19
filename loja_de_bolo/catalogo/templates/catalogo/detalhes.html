@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ jogo.nome }} - Girina Games</title>
+    <link rel="stylesheet" href="{% static 'catalogo/style.css' %}">
+</head>
+<body>
+<div class="vitrine">
+    <a href="{% url 'home' %}" class="btn btn-voltar">Voltar</a>
+    <section class="detalhe">
+        <img class="foto-grande" src="{{ jogo.foto.url }}" alt="{{ jogo.nome }}">
+        <div>
+            <h1>{{ jogo.nome }}</h1>
+            <p>R$ {{ jogo.preco }}</p>
+            <p>Lançamento: {{ jogo.data_lancamento|date:"d/m/Y" }}</p>
+            <p>Gênero: {{ jogo.genero.nome }}</p>
+            <p>
+                Plataformas:
+                {% for plataforma in jogo.plataformas.all %}
+                    {{ plataforma.nome }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </section>
+    <section>
+        <h2>Avaliações</h2>
+        {% for avaliacao in avaliacoes %}
+        <div class="review">
+            <p><strong>{{ avaliacao.nome_visitante }}</strong> - nota {{ avaliacao.nota }}/5</p>
+            <p>{{ avaliacao.comentario }}</p>
+        </div>
+        {% empty %}
+        <p>Este jogo ainda não tem avaliações.</p>
+        {% endfor %}
+    </section>
+    <section>
+        <h2>Deixe sua avaliação</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class ='btn btn-confirmar' type="submit">Enviar</button>
+        </form>
+    </section>
+</div>
+</body>
+</html>

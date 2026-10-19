@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Excluir jogo - Girina Games</title>
+    <link rel="stylesheet" href="{% static 'catalogo/style.css' %}">
+</head>
+<body>
+<div class="vitrine">
+    <h1>Excluir jogo</h1>
+    <p>Tem certeza que deseja excluir <strong>{{ jogo.nome }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class='btn btn-excluir'>Sim, excluir</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}" class='btn btn-voltar'>Cancelar</a></p>
+</div>
+</body>
+</html>

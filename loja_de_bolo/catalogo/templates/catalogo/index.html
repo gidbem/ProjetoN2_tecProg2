@@ -1,11 +1,55 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Loja de Jogos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girina Store</title>
+    <link rel="stylesheet" href="{% static 'catalogo/style.css' %}">
 </head>
 <body>
-    <h3>Bem-vindo a Girina Games</h3>
-</div>
+
+<header class="topo">
+    <a href="{% url 'home' %}" class="logo">Girina Store</a>
+    <nav>
+        <a href="{% url 'home' %}">Catálogo</a>
+        <a href="{% url 'dashboard' %}" class="botao-nav">Dashboard</a>
+    </nav>
+</header>
+
+<main class="vitrine">
+
+    {% if jogo_destaque %}
+    <section class="area-destaque">
+        <a href="{% url 'detalhes' jogo_destaque.pk %}" class="destaque-foto">
+            <img src="{{ jogo_destaque.foto.url }}" alt="{{ jogo_destaque.nome }}">
+        </a>
+        <div class="destaque-info">
+            <span class="selo">DESTAQUE</span>
+            <h2>{{ jogo_destaque.nome }}</h2>
+            <p class="preco">R$ {{ jogo_destaque.preco|floatformat:2 }}</p>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="area-catalogo">
+        <h3>Todos os Jogos</h3>
+        <div class="grade-jogos">
+            {% for jogo in jogos %}
+            <article class="card-jogo">
+                <a href="{% url 'detalhes' jogo.pk %}">
+                    <img src="{{ jogo.foto.url }}" alt="{{ jogo.nome }}">
+                </a>
+                <h4>{{ jogo.nome }}</h4>
+                <p class="preco">R$ {{ jogo.preco|floatformat:2 }}</p>
+            </article>
+            {% empty %}
+            <p>Nenhum jogo cadastrado.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+
 </body>
 </html>
